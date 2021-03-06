@@ -2,14 +2,15 @@
 #include <iostream>
 
 
-std::wstring get_ceasar_string(std::wstring& str) //std::wstring&& func_name(std::wstring& str)
-{                                                //Возвращаем r-value, чтобы не копировать лишний раз
+std::wstring get_ceasar_string(std::wstring& str) // use reference to prevent extra copying
+{
   const wchar_t shift = 3;
   std::wstring res;
-
-  res.reserve(str.size()); //Уменьшаем кол-во 
-  //using range-based for
-  //for (auto symbol : str) ??? Снижает кол-во использования оператора []
+  
+  res.reserve(str.size()); //Better to allocate memory once instead of 
+                           //if (str.size() == str.capacity()) /allocate 2*capacity mem/
+  
+  //using "range-based for" to use operator[] less
   for (auto const &symbol : str) 
   {
     if (symbol >= L'a' && symbol <= L'z') 
@@ -27,13 +28,14 @@ std::wstring get_ceasar_string(std::wstring& str) //std::wstring&& func_name(std
     res += symbol;
   }
 
-  return std::move(res); //std::move() ???
+  return std::move(res); //std::move() to use constr(wstring&&)
+                         //and not copy twice
 }
 
 int main() 
 {
   std::wstring str = L"Somebody once told me the world is gonna roll me!";
-  std::wstring str_crypted = get_ceasar_string(str); //use constructor with && instead of cons with & ???
+  std::wstring str_crypted = get_ceasar_string(str);
 
   std::wcout << str_crypted << std::endl;
 

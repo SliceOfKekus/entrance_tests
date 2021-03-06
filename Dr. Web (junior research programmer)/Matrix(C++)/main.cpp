@@ -46,33 +46,13 @@ vector<int> generate(vector<int>& matrix, size_t m, size_t n)
 		for (size_t index = 0; index < m; ++index)
 			temp[index * n + count] = column[index];
 	}
-	
-	cout << "\n";
-	for (int i = 0; i < m; ++i)
-	{
-		for (int j = 0; j < n; ++j)
-			cout << temp[i * n + j] << " ";
-		
-		cout << "\n";
-	}
 
-	//for (auto const& cell : temp) 
-	//	cout << cell << (cell % n == 0 ? "\n" : " "); didn't work well idk why
-	
 	size_t offSet = 0;
 
 	for (size_t count = 0; count < m; ++count)
 	{
 		QuickSort(temp, 0 + offSet, n - 1 + offSet);
 		offSet += n;
-	}
-
-	for (int i = 0; i < m; ++i)
-	{
-		for (int j = 0; j < n; ++j)
-			cout << temp[i * n + j] << " ";
-
-		cout << "\n";
 	}
 
 	return std::move(temp);
