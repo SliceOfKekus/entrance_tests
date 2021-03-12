@@ -20,6 +20,9 @@ void calc_mesh_normals(vec3* normals, const vec3* verts, const int* faces, int n
 		vec3 normal = normalize(cross(a, b));
 
 		for (int j = 0; j < 3; ++j)
-			normals[faces[i + j]] = normalize(normals[faces[i + j]]);
+			normals[faces[i + j]] += normal;
 	}
+
+	for (int i = 0; i < nverts; ++i)
+		normals[i] = normalize(normals[i]);
 }
